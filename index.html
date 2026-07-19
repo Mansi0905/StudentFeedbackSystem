@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Feedback System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .fb-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        .fb-icon {
+            width: 48px; height: 48px;
+            background: #e8f0fe;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .fb-icon i { font-size: 24px; color: #3b6fe8; }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+        }
+
+        .fb-sub {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 1.75rem;
+        }
+
+        .fb-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #4b5563;
+            margin-bottom: 6px;
+        }
+
+        .fb-label i { font-size: 14px; }
+
+        .fb-group { margin-bottom: 1rem; }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            color: #1a1a2e;
+            background: #f9fafb;
+            outline: none;
+            font-family: Arial, sans-serif;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #3b6fe8;
+            box-shadow: 0 0 0 3px rgba(59,111,232,0.12);
+            background: #fff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 110px;
+            line-height: 1.6;
+        }
+
+        .fb-divider {
+            border: none;
+            border-top: 1px solid #e5e7eb;
+            margin: 1.25rem 0;
+        }
+
+        .fb-rating { display: flex; gap: 8px; flex-wrap: wrap; }
+
+        .fb-star {
+            background: none;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #6b7280;
+            transition: all 0.12s;
+            font-family: Arial, sans-serif;
+        }
+
+        .fb-star:hover, .fb-star.active {
+            background: #fef9c3;
+            border-color: #fbbf24;
+            color: #92400e;
+        }
+
+        .fb-btn {
+            width: 100%;
+            padding: 12px;
+            background: #3b6fe8;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 1.25rem;
+            transition: background 0.15s, transform 0.1s;
+            font-family: Arial, sans-serif;
+        }
+
+        .fb-btn:hover { background: #2d5bd6; }
+        .fb-btn:active { transform: scale(0.98); }
+        .fb-btn:disabled { background: #9ca3af; cursor: not-allowed; }
+        .fb-btn i { font-size: 17px; }
+
+        .fb-error {
+            display: none;
+            font-size: 13px;
+            color: #b91c1c;
+            background: #fee2e2;
+            border: 1px solid #fca5a5;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-top: 12px;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .fb-success {
+            display: none;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .fb-success-icon {
+            width: 56px; height: 56px;
+            background: #dcfce7;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .fb-success-icon i { font-size: 28px; color: #16a34a; }
+        .fb-success h3 { font-size: 18px; font-weight: 600; color: #1a1a2e; margin-bottom: 6px; }
+        .fb-success p { font-size: 14px; color: #6b7280; }
+    </style>
+</head>
+<body>
+    <div class="fb-card">
+        <div class="fb-icon"><i class="ti ti-message-2-heart"></i></div>
+        <h2>Share your feedback</h2>
+        <p class="fb-sub">Your thoughts help us improve. Takes less than a minute.</p>
+
+        <div id="fb-form">
+            <div class="fb-group">
+                <div class="fb-label"><i class="ti ti-user"></i> Your name</div>
+                <input type="text" id="fb-name" placeholder="Mansi Kumari">
+            </div>
+
+            <div class="fb-group">
+                <div class="fb-label"><i class="ti ti-mail"></i> Email address</div>
+                <input type="email" id="fb-email" placeholder="you@college.edu">
+            </div>
+
+            <div class="fb-group">
+                <div class="fb-label"><i class="ti ti-star"></i> Overall rating</div>
+                <div class="fb-rating" id="fb-stars">
+                    <button class="fb-star" data-val="1">1 ★</button>
+                    <button class="fb-star" data-val="2">2 ★</button>
+                    <button class="fb-star" data-val="3">3 ★</button>
+                    <button class="fb-star" data-val="4">4 ★</button>
+                    <button class="fb-star" data-val="5">5 ★</button>
+                </div>
+            </div>
+
+            <hr class="fb-divider">
+
+            <div class="fb-group">
+                <div class="fb-label"><i class="ti ti-message-dots"></i> Your feedback</div>
+                <textarea id="fb-feedback" placeholder="What did you think? What could be better?"></textarea>
+            </div>
+
+            <div class="fb-error" id="fb-error">
+                <i class="ti ti-alert-circle"></i>
+                <span id="fb-error-text">Please fill in all fields.</span>
+            </div>
+
+            <button class="fb-btn" id="fb-submit">
+                <i class="ti ti-send"></i>
+                <span>Send feedback</span>
+            </button>
+        </div>
+
+        <div class="fb-success" id="fb-success">
+            <div class="fb-success-icon"><i class="ti ti-check"></i></div>
+            <h3>Feedback received!</h3>
+            <p>Thanks for taking the time. We'll review it shortly.</p>
+        </div>
+    </div>
+
+    <script>
+        let rating = 0;
+
+        document.querySelectorAll('.fb-star').forEach(btn => {
+            btn.addEventListener('click', () => {
+                rating = parseInt(btn.dataset.val);
+                document.querySelectorAll('.fb-star').forEach((b, i) => {
+                    b.classList.toggle('active', i < rating);
+                });
+            });
+        });
+
+        document.getElementById('fb-submit').addEventListener('click', async () => {
+            const name = document.getElementById('fb-name').value.trim();
+            const email = document.getElementById('fb-email').value.trim();
+            const feedback = document.getElementById('fb-feedback').value.trim();
+            const errEl = document.getElementById('fb-error');
+            const errText = document.getElementById('fb-error-text');
+
+            errEl.style.display = 'none';
+
+            if (!name || !email || !feedback) {
+                errText.textContent = 'Please fill in all fields.';
+                errEl.style.display = 'flex';
+                return;
+            }
+
+            const btn = document.getElementById('fb-submit');
+            btn.innerHTML = '<i class="ti ti-loader-2"></i><span>Sending...</span>';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('https://p76jygcvtl.execute-api.us-east-1.amazonaws.com/feedback', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, feedback: `Rating: ${rating}/5\n\n${feedback}` })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    document.getElementById('fb-form').style.display = 'none';
+                    document.getElementById('fb-success').style.display = 'block';
+                } else {
+                    throw new Error(data.message || 'Something went wrong');
+                }
+            } catch (e) {
+                errText.textContent = 'Submission failed. Check your connection and try again.';
+                errEl.style.display = 'flex';
+                btn.innerHTML = '<i class="ti ti-send"></i><span>Send feedback</span>';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
